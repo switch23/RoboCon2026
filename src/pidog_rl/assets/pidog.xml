@@ -1,0 +1,97 @@
+<mujoco model="pidog">
+  <!-- Simplified quadruped model inspired by SunFounder PiDog's kinematics:
+       1 torso + 4 legs, each leg with 2 pitch hinge joints (shoulder, knee),
+       driven by position-controlled actuators to emulate the real robot's servos. -->
+  <compiler angle="degree" autolimits="true"/>
+
+  <option timestep="0.005" iterations="50" solver="Newton" gravity="0 0 -9.81"/>
+
+  <default>
+    <joint type="hinge" damping="0.2" armature="0.01" frictionloss="0.05"/>
+    <geom contype="1" conaffinity="1" condim="3" friction="0.9 0.1 0.1" solref="0.01 1"/>
+    <position kp="8" ctrlrange="-90 90" forcerange="-3 3"/>
+    <default class="leg">
+      <geom type="capsule" size="0.009" rgba="0.2 0.2 0.25 1"/>
+    </default>
+  </default>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.6 0.75 0.9" rgb2="1 1 1" width="64" height="64"/>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.2 0.3 0.2" rgb2="0.25 0.35 0.25" width="300" height="300"/>
+    <material name="grid" texture="grid" texrepeat="6 6" reflectance="0.1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 2" dir="0 0 -1" diffuse="1 1 1" specular="0.3 0.3 0.3"/>
+    <geom name="floor" type="plane" size="5 5 0.1" material="grid" friction="1.0 0.1 0.1"/>
+
+    <body name="torso" pos="0 0 0.14">
+      <camera name="track" mode="trackcom" pos="0 -0.6 0.3" xyaxes="1 0 0 0 0.4 1"/>
+      <freejoint name="root"/>
+      <geom name="torso" type="box" size="0.08 0.045 0.02" rgba="0.8 0.2 0.2 1" mass="0.35"/>
+      <geom name="head" type="sphere" size="0.025" pos="0.11 0 0.01" rgba="0.8 0.2 0.2 1" mass="0.05"/>
+      <site name="imu" pos="0 0 0" size="0.005"/>
+
+      <!-- Front-left leg -->
+      <body name="fl_hip" pos="0.06 0.05 0">
+        <joint name="fl_shoulder" axis="0 1 0" range="-60 60"/>
+        <geom class="leg" fromto="0 0 0 0 0 -0.055"/>
+        <body name="fl_knee" pos="0 0 -0.055">
+          <joint name="fl_knee" axis="0 1 0" range="-20 130"/>
+          <geom class="leg" fromto="0 0 0 0 0 -0.06"/>
+          <geom name="fl_foot" class="leg" type="sphere" size="0.012" pos="0 0 -0.06" friction="1.2 0.1 0.1"/>
+        </body>
+      </body>
+
+      <!-- Front-right leg -->
+      <body name="fr_hip" pos="0.06 -0.05 0">
+        <joint name="fr_shoulder" axis="0 1 0" range="-60 60"/>
+        <geom class="leg" fromto="0 0 0 0 0 -0.055"/>
+        <body name="fr_knee" pos="0 0 -0.055">
+          <joint name="fr_knee" axis="0 1 0" range="-20 130"/>
+          <geom class="leg" fromto="0 0 0 0 0 -0.06"/>
+          <geom name="fr_foot" class="leg" type="sphere" size="0.012" pos="0 0 -0.06" friction="1.2 0.1 0.1"/>
+        </body>
+      </body>
+
+      <!-- Back-left leg -->
+      <body name="bl_hip" pos="-0.06 0.05 0">
+        <joint name="bl_shoulder" axis="0 1 0" range="-60 60"/>
+        <geom class="leg" fromto="0 0 0 0 0 -0.055"/>
+        <body name="bl_knee" pos="0 0 -0.055">
+          <joint name="bl_knee" axis="0 1 0" range="-20 130"/>
+          <geom class="leg" fromto="0 0 0 0 0 -0.06"/>
+          <geom name="bl_foot" class="leg" type="sphere" size="0.012" pos="0 0 -0.06" friction="1.2 0.1 0.1"/>
+        </body>
+      </body>
+
+      <!-- Back-right leg -->
+      <body name="br_hip" pos="-0.06 -0.05 0">
+        <joint name="br_shoulder" axis="0 1 0" range="-60 60"/>
+        <geom class="leg" fromto="0 0 0 0 0 -0.055"/>
+        <body name="br_knee" pos="0 0 -0.055">
+          <joint name="br_knee" axis="0 1 0" range="-20 130"/>
+          <geom class="leg" fromto="0 0 0 0 0 -0.06"/>
+          <geom name="br_foot" class="leg" type="sphere" size="0.012" pos="0 0 -0.06" friction="1.2 0.1 0.1"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="fl_shoulder" joint="fl_shoulder"/>
+    <position name="fl_knee" joint="fl_knee"/>
+    <position name="fr_shoulder" joint="fr_shoulder"/>
+    <position name="fr_knee" joint="fr_knee"/>
+    <position name="bl_shoulder" joint="bl_shoulder"/>
+    <position name="bl_knee" joint="bl_knee"/>
+    <position name="br_shoulder" joint="br_shoulder"/>
+    <position name="br_knee" joint="br_knee"/>
+  </actuator>
+
+  <sensor>
+    <framequat name="torso_quat" objtype="site" objname="imu"/>
+    <framelinvel name="torso_linvel" objtype="site" objname="imu"/>
+    <frameangvel name="torso_angvel" objtype="site" objname="imu"/>
+  </sensor>
+</mujoco>

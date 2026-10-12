@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "View PiDog model (MuJoCo Viewer)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}\\scripts\\view_model.py",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}\\.env"
+    },
+    {
+      "name": "Train PPO (smoke test)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}\\scripts\\train_ppo.py",
+      "args": ["--timesteps", "4096", "--n-envs", "2", "--run-name", "debug_run"],
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}\\.env"
+    },
+    {
+      "name": "Play trained policy",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}\\scripts\\play.py",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}\\.env"
+    }
+  ]
+}

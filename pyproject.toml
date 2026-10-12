@@ -1,0 +1,29 @@
+[project]
+name = "pidog-rl"
+version = "0.1.0"
+description = "PiDog (quadruped robot) reinforcement learning environment using MuJoCo, Gymnasium, and PyTorch"
+authors = [
+    { name = "switch23", email = "switch153r81935@icloud.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "gymnasium>=1.4.0",
+    "imageio>=2.38.1",
+    "mujoco>=3.15.0",
+    "stable-baselines3>=2.9.0",
+    "tensorboard>=2.21.0",
+    "torch>=2.14.1",
+]
+
+[project.scripts]
+pidog-rl = "pidog_rl:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "rich>=15.0.0",
+    "tqdm>=4.70.1",
+]

@@ -159,6 +159,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# PiDog RL training artifacts
+/runs/
+/models/
+
 # Spyder project settings
 .spyderproject
 .spyproject
