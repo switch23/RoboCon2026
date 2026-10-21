@@ -1,0 +1,13 @@
+.vscode/*
+dev/*
+photo
+test/photo*
+test/scene/*
+backups/*
+**secret*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/

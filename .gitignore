@@ -222,3 +222,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Per-PC RL runtime and experiment artifacts (source MJCF stays in src/assets)
+/pidog_rl/.tools/
+/pidog_rl/.python/
+/pidog_rl/.tmp/
+/pidog_rl/outputs/
+/pidog_rl/logs/
+# Only generated models are ignored; smoke.xml is shared source.
+!/pidog_rl/models/
+/pidog_rl/models/*
+!/pidog_rl/models/smoke.xml
