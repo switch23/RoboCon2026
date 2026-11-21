@@ -20,17 +20,33 @@
 IMU値はSunFounderライブラリの`accData`と`gyroData`をそのまま返し、校正や単位変換は行いません。
 音方向は未検知時に`-1`を返します。
 
-## 実行
+## 開発環境とテスト（実機不要）
+
+このプロジェクトはuvでPython 3.11を管理します。`pidog`ディレクトリで一度だけ環境を同期します。
+
+```powershell
+uv python install 3.11
+uv sync
+```
+
+ハードウェア依存パッケージは開発環境に入れず、センサーやポーリング制御はモックを使ってテストします。
+
+```powershell
+uv run python -m unittest discover -s . -p "test_*.py"
+```
+
+## 実機での実行
 
 SunFounderの`pidog`ライブラリとそのハードウェア依存関係をセットアップしたRaspberry Pi上で、
 このディレクトリに移動して実行します。
 
 ```bash
-python3 main.py
+sudo python3 main.py
 ```
 
 ローカルのディレクトリ名とSunFounderライブラリのPythonパッケージ名がどちらも`pidog`のため、
 このディレクトリはPythonパッケージ化せず、`main.py`を直接起動する構成にしています。
+実機実行時は、SunFounderの`pidog`とGPIO/I2C等の依存関係を利用できるPython環境を使ってください。
 
 ## 出力IFの使用例
 
